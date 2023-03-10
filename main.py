@@ -9,8 +9,7 @@ url_alphavantage = "https://www.alphavantage.co/query"
 params_alphavantage = {
     "function": "TIME_SERIES_DAILY_ADJUSTED",
     "symbol": "TSLA",
-    # "apikey": os.environ["ALPHAVANTAGE_API_KEY"]
-    "apikey": "HZV2JIPV3S3CWPA8"
+    "apikey": os.environ["ALPHAVANTAGE_API_KEY"]
 }
 
 
@@ -29,7 +28,7 @@ params_news_api = {
     "q": "TSLA",
     "from": yesterday_data,
     "sortBy": "popularity",
-    "apiKey": "387ea5073be24d7ab86a75d6e488d0fa"
+    "apiKey": os.environ["NEWS_API_KEY"]
 }
 
 response_news_api = requests.get(url=url_news_api, params=params_news_api)
@@ -53,14 +52,14 @@ if message is not None:
     for data in message:
         end_message += data + "\n\n"
 
-    client = vonage.Client(key="fdf3bf26", secret="AIsVS77WQRZ4QCs9")
+    client = vonage.Client(key=os.environ["VONAGE_API_KEY"], secret=os.environ["VONAGE_API_SECRET"])
     sms = vonage.Sms(client)
 
     print(end_message)
 
     response_data = sms.send_message({
         "from": "Vonage APIs",
-        "to": "48577428858",
+        "to": os.environ["MY_NUMBER"],
         "text": end_message
     }
     )
